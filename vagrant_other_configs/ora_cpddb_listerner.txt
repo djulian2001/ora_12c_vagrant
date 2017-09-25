@@ -1,0 +1,104 @@
+# PROD
+spfile              string   /u01/oracle/product/12.1.0/db_4/dbs/spfileprod.ora
+service_names         string   prod
+remote_listener         string
+local_listener          string   LISTENER_PROD
+instance_name         string   prod
+tnsnames.ora
+PROD =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = cpddb.biodesign.asu.edu)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = prod)
+    )
+  )
+
+EXTPROC_CONNECTION_DATA =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1))
+    )
+    (CONNECT_DATA =
+      (SID = PLSExtProc)
+      (PRESENTATION = RO)
+    )
+  )
+LISTENER_PROD =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = cpddb.biodesign.asu.edu)(PORT = 1521))
+
+
+listener.ora
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = PLSExtProc)
+      (ORACLE_HOME = /u01/oracle/product/12.1.0/db_4)
+      (PROGRAM = extproc)
+    )
+    (SID_DESC =
+      (SID_NAME = prod)
+      (ORACLE_HOME = /u01/oracle/product/12.1.0/db_4)
+      (GLOBAL_DBNAME = prod.biodesign.asu.edu)
+    )
+  )
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = cpddb.biodesign.asu.edu)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1))
+    )
+  )
+
+
+
+
+# DEV
+spfile							string	 /u01/oracle/product/12.1.0/db_3/dbs/spfiledev.ora
+service_names					string	 dev  # PMON registers this to the listener(s) in cpddb's case LISTENER_PROD
+remote_listener 				string
+local_listener					string	 
+instance_name					string	 dev
+
+tnsnames.ora
+DEV =
+  (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = cpddb.biodesign.asu.edu)(PORT = 1522))
+        (CONNECT_DATA =
+          (SERVER = DEDICATED)
+          (SERVICE_NAME = dev)
+        )
+  )
+EXTPROC_CONNECTION_DATA =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC2))
+    )
+    (CONNECT_DATA =
+      (SID = PLSExtProc2)
+      (PRESENTATION = RO)
+    )
+  )
+
+listener.ora:
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = PLSExtProc2)
+      (ORACLE_HOME = /u01/oracle/product/12.1.0/db_3)
+      (PROGRAM = extproc)
+    )
+    (SID_DESC = 
+      (SID_NAME = dev)
+      (ORACLE_HOME = /u01/oracle/product/12.1.0/db_3)
+      (GLOBAL_DBNAME = dev.biodesign.asu.edu)
+    )
+  )
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = cpddb.biodesign.asu.edu)(PORT = 1522))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC2))
+    )
+  )
+

@@ -1,0 +1,9 @@
+logs/**
+docs/**
+.vagrant/**
+.DS_Store
+.project
+*.pyc
+*.egg-info
+
+ora_installs/**
